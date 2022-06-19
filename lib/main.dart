@@ -31,6 +31,19 @@ class _HomeScreenState extends State<HomeScreen> {
   int diemAnh = 0;
   String hocLuc = "Chưa xác định";
   double diemTBDB = 0.0;
+
+  void xepLoai(diemTB) {
+    if (diemTB! >= 9) {
+      hocLuc = "Giỏi";
+    } else if (diemTB! < 9 && diemTB! >= 7) {
+      hocLuc = "Khá";
+    } else if (diemTB! < 7 && diemTB! >= 5) {
+      hocLuc = "Trung bình";
+    } else {
+      hocLuc = "Yếu";
+    }
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -42,6 +55,8 @@ class _HomeScreenState extends State<HomeScreen> {
         child: Container(
           height: MediaQuery.of(context).size.height,
           width: MediaQuery.of(context).size.height,
+          padding:
+              const EdgeInsets.only(right: 20, left: 20, top: 10, bottom: 10),
           child: Column(children: [
             // TextField: Điểm toán
             inputWidget(
@@ -50,36 +65,29 @@ class _HomeScreenState extends State<HomeScreen> {
                 controller: diemToanController),
             // TextField: Điểm Văn
             inputWidget(
-                labelText: "Điểm Toán",
-                hintText: "Nhập điểm toán",
+                labelText: "Điểm Văn",
+                hintText: "Nhập điểm Văn",
                 controller: diemVanController),
             // TextFiel: Điểm anh
             inputWidget(
-                labelText: "Điểm Toán",
-                hintText: "Nhập điểm toán",
+                labelText: "Điểm Anh",
+                hintText: "Nhập điểm Anh",
                 controller: diemAnhController),
             // Button show:
             // Tính điểm trung bình, showw, đánh giá
             ElevatedButton(
-                onPressed: () {
-                  setState(() {
-                    diemToan = int.parse(diemToanController.text);
-                    diemVan = int.parse(diemVanController.text);
-                    diemAnh = int.parse(diemAnhController.text);
-                    diemTBDB = ((diemToan + diemAnh + diemVan) / 3);
+              onPressed: () {
+                setState(() {
+                  diemToan = int.parse(diemToanController.text);
+                  diemVan = int.parse(diemVanController.text);
+                  diemAnh = int.parse(diemAnhController.text);
+                  diemTBDB = ((diemToan + diemAnh + diemVan) / 3);
 
-                    if (diemTBDB >= 9.0) {
-                      hocLuc = "Giỏi";
-                    } else if (diemTBDB < 9.0 && diemTBDB >= 7.0) {
-                      hocLuc = "Khá";
-                    } else if (diemTBDB < 7.0 && diemTBDB >= 5.0) {
-                      hocLuc = "Trung bình";
-                    } else {
-                      hocLuc = "Yếu";
-                    }
-                  });
-                },
-                child: Text("Tính tuổi")),
+                  xepLoai(diemTBDB);
+                });
+              },
+              child: Text("Kiểm tra Điểm Trung Bình"),
+            ),
             const SizedBox(
               height: 30,
             ),
@@ -107,7 +115,7 @@ Widget inputWidget(
     required String hintText,
     required controller}) {
   return Container(
-      padding: const EdgeInsets.only(top: 20, bottom: 10),
+      padding: const EdgeInsets.only(top: 20, bottom: 20),
       child: TextField(
         decoration: InputDecoration(
           border: OutlineInputBorder(),
@@ -117,15 +125,3 @@ Widget inputWidget(
         controller: controller,
       ));
 }
-
-// void xepLoai(diemTBDB) {
-//   if (diemTBDB! >= 9) {
-//     hocLuc = "Giỏi";
-//   } else if (diemTBDB! < 9 && diemTBDB! >= 7) {
-//     hocLuc = "Khá";
-//   } else if (diemTBDB! < 7 && diemTBDB! >= 5) {
-//     hocLuc = "Trung bình";
-//   } else {
-//     hocLuc = "Yếu";
-//   }
-// }
